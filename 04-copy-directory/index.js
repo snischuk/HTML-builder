@@ -9,7 +9,6 @@ const pathFolderCopied = path.join(__dirname, FOLDER_COPIED);
 
 async function copyDir(source, destination) {
   try {
-    await removeDir(destination);
     await fsPromise.mkdir(destination, { recursive: true });
     const files = await fsPromise.readdir(source);
 
@@ -28,22 +27,11 @@ async function copyDir(source, destination) {
           await copyDir(sourcePath, destinationPath);
         }
       } catch (error) {
-        return error;
+        console.error(error.message);
       }
     });
   } catch (error) {
-    return error;
-  }
-}
-
-async function removeDir(directory) {
-  try {
-    const stat = await fsPromise.stat(directory);
-    if (stat.isDirectory()) {
-      await fsPromise.rm(directory, { recursive: true });
-    }
-  } catch (error) {
-    return error;
+    console.error(error.message);
   }
 }
 
