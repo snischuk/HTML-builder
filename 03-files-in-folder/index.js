@@ -1,7 +1,7 @@
 const path = require('path');
 const fsPromises = require('fs/promises');
 
-async function processFiles() {
+async function analyzeFiles() {
   const FOLDER_NAME = 'secret-folder';
   const pathSecretFolder = path.join(__dirname, FOLDER_NAME);
 
@@ -22,10 +22,12 @@ async function processFiles() {
 
         const fileSizeInKb = Number(stats.size / 1024).toFixed(3);
         const fileExtWithoutDot = fileExtension.slice(1);
-        const fileNameWithoutExt = fileName.slice(0, fileName.lastIndexOf('.'));
+        const fileNameWithoutExt = fileName.replace(fileExtension, '');
 
         console.log(
-          `${fileNameWithoutExt} - ${fileExtWithoutDot} - ${fileSizeInKb}kb`,
+          `${fileNameWithoutExt} - ${
+            fileExtWithoutDot || '(no extension)'
+          } - ${fileSizeInKb}kb`,
         );
       }),
     );
@@ -37,4 +39,4 @@ async function processFiles() {
   }
 }
 
-processFiles();
+analyzeFiles();
