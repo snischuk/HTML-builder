@@ -9,6 +9,8 @@ const pathFolderCopied = path.join(__dirname, FOLDER_COPIED);
 
 async function copyDir(source, destination) {
   try {
+    await fsPromise.rm(pathFolderCopied, { recursive: true, force: true });
+
     await fsPromise.mkdir(destination, { recursive: true });
     const files = await fsPromise.readdir(source);
 
